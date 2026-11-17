@@ -1,0 +1,83 @@
+<!--
+  Student Name: Ean Bynoe
+  Student Number: 301390261
+  Submission Date: November 17, 2026
+  Course: COMP303 - Java EE Programming
+  Assignment 3: Online Marketplace Management System
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Online Marketplace Management System</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <a th:href="@{/}" class="logo">MarketplaceHub</a>
+        <nav class="nav-links">
+            <a th:href="@{/}" class="active">Dashboard</a>
+            <a th:href="@{/sellers}">Sellers</a>
+            <a th:href="@{/products}">Products</a>
+            <a th:href="@{/orders}">Orders</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h1>Online Marketplace Management System</h1>
+            <p class="subtitle">Spring Boot Reactive REST API with MongoDB &amp; Thymeleaf</p>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 1.5rem;">
+                <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 1.5rem;">
+                    <h3 style="color: #38bdf8; margin-bottom: 0.5rem;">Sellers Module</h3>
+                    <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 1rem;">Manage seller profiles, business types, cities, and ratings.</p>
+                    <a th:href="@{/sellers}" class="btn btn-primary btn-small">Manage Sellers &rarr;</a>
+                </div>
+                <div style="background: rgba(129, 140, 248, 0.1); border: 1px solid rgba(129, 140, 248, 0.3); border-radius: 12px; padding: 1.5rem;">
+                    <h3 style="color: #818cf8; margin-bottom: 0.5rem;">Products Module</h3>
+                    <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 1rem;">Track item categories, live inventory stock, and pricing.</p>
+                    <a th:href="@{/products}" class="btn btn-primary btn-small">Manage Products &rarr;</a>
+                </div>
+                <div style="background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.3); border-radius: 12px; padding: 1.5rem;">
+                    <h3 style="color: #34d399; margin-bottom: 0.5rem;">Orders Module</h3>
+                    <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 1rem;">Process purchases, validate stock, and track order lifecycles.</p>
+                    <a th:href="@{/orders}" class="btn btn-primary btn-small">Manage Orders &rarr;</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- REST API Quick Reference Card -->
+        <div class="card">
+            <h2>RESTful API Endpoints Quick Reference</h2>
+            <p class="subtitle">All endpoints support reactive non-blocking execution with JSON payload</p>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Resource</th>
+                            <th>HTTP Method</th>
+                            <th>Endpoint</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Sellers</td><td>GET / POST</td><td><code>/api/sellers</code></td><td>Retrieve all or create a new seller</td></tr>
+                        <tr><td>Sellers</td><td>GET / PUT / DELETE</td><td><code>/api/sellers/{id}</code></td><td>Find, update, or remove seller by ID</td></tr>
+                        <tr><td>Products</td><td>GET / POST</td><td><code>/api/products</code></td><td>Retrieve all or create a new product</td></tr>
+                        <tr><td>Products</td><td>GET / PUT / DELETE</td><td><code>/api/products/{id}</code></td><td>Find, update, or remove product by ID</td></tr>
+                        <tr><td>Products</td><td>GET</td><td><code>/api/products/category/{cat}</code></td><td>Find products by category</td></tr>
+                        <tr><td>Products</td><td>GET</td><td><code>/api/products/seller/{sellerId}</code></td><td>Find products by seller ID</td></tr>
+                        <tr><td>Orders</td><td>GET / POST</td><td><code>/api/orders</code></td><td>Retrieve all or place order (auto stock reduction)</td></tr>
+                        <tr><td>Orders</td><td>GET / PUT / DELETE</td><td><code>/api/orders/{id}</code></td><td>Find, update, or cancel order (auto stock restoration)</td></tr>
+                        <tr><td>Orders</td><td>GET</td><td><code>/api/orders/status/{status}</code></td><td>Filter orders by status</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        COMP303 Assignment 3 &bull; Developed by Ean Bynoe (301390261)
+    </footer>
+</body>
+</html>

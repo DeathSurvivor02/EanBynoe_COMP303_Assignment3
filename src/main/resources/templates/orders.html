@@ -1,0 +1,113 @@
+<!--
+  Student Name: Ean Bynoe
+  Student Number: 301390261
+  Submission Date: November 17, 2026
+  Course: COMP303 - Java EE Programming
+  Assignment 3: Online Marketplace Management System
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Orders - MarketplaceHub</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <a th:href="@{/}" class="logo">MarketplaceHub</a>
+        <nav class="nav-links">
+            <a th:href="@{/}">Dashboard</a>
+            <a th:href="@{/sellers}">Sellers</a>
+            <a th:href="@{/products}">Products</a>
+            <a th:href="@{/orders}" class="active">Orders</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Place Order Form -->
+        <div class="card">
+            <h2>Place Customer Order</h2>
+            <p class="subtitle">Orders automatically validate and deduct product stock</p>
+            <form th:action="@{/orders/add}" th:object="${newOrder}" method="post">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="customerName">Customer Name *</label>
+                        <input type="text" id="customerName" th:field="*{customerName}" required placeholder="e.g. John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label for="customerEmail">Customer Email *</label>
+                        <input type="email" id="customerEmail" th:field="*{customerEmail}" required placeholder="e.g. john@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="productId">Select Product *</label>
+                        <select id="productId" th:field="*{productId}" required>
+                            <option th:each="p : ${products}" 
+                                    th:value="${p.productId}" 
+                                    th:text="'#PRD-' + ${p.productId} + ': ' + ${p.productName} + ' ($' + ${#numbers.formatDecimal(p.price, 1, 2)} + ') - Stock: ' + ${p.stockQuantity}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Order Quantity *</label>
+                        <input type="number" min="1" id="quantity" th:field="*{quantity}" value="1" required>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <button type="submit" class="btn btn-primary">Submit Order &rarr;</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="card">
+            <h2>Recent Customer Orders</h2>
+            <p class="subtitle">Live order management and cancellation</p>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Email</th>
+                            <th>Product ID</th>
+                            <th>Qty</th>
+                            <th>Status</th>
+                            <th>Order Time</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="o : ${orders}">
+                            <td th:text="'#ORD-' + ${o.orderId}" style="font-weight: 600;"></td>
+                            <td th:text="${o.customerName}"></td>
+                            <td th:text="${o.customerEmail}"></td>
+                            <td th:text="'#PRD-' + ${o.productId}"></td>
+                            <td th:text="${o.quantity}" style="font-weight: 700;"></td>
+                            <td>
+                                <span th:class="'badge badge-' + ${#strings.toLowerCase(o.orderStatus)}" 
+                                      th:text="${o.orderStatus}">
+                                </span>
+                            </td>
+                            <td th:text="${#temporals.format(o.orderTime, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td style="display: flex; gap: 0.5rem;">
+                                <a th:if="${o.orderStatus != 'Cancelled'}"
+                                   th:href="@{/orders/cancel/{id}(id=${o.orderId})}" 
+                                   class="btn btn-secondary btn-small"
+                                   style="color: #facc15; border-color: rgba(250, 204, 21, 0.4);"
+                                   onclick="return confirm('Cancel this order and restore product stock?')">Cancel</a>
+                                <a th:href="@{/orders/delete/{id}(id=${o.orderId})}" 
+                                   class="btn btn-secondary btn-small btn-danger"
+                                   onclick="return confirm('Delete this order?')">Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        COMP303 Assignment 3 &bull; Developed by Ean Bynoe (301390261)
+    </footer>
+</body>
+</html>

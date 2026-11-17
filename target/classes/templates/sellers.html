@@ -1,0 +1,105 @@
+<!--
+  Student Name: Ean Bynoe
+  Student Number: 301390261
+  Submission Date: November 17, 2026
+  Course: COMP303 - Java EE Programming
+  Assignment 3: Online Marketplace Management System
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sellers Management - MarketplaceHub</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <a th:href="@{/}" class="logo">MarketplaceHub</a>
+        <nav class="nav-links">
+            <a th:href="@{/}">Dashboard</a>
+            <a th:href="@{/sellers}" class="active">Sellers</a>
+            <a th:href="@{/products}">Products</a>
+            <a th:href="@{/orders}">Orders</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Add Seller Form -->
+        <div class="card">
+            <h2>Add New Seller</h2>
+            <p class="subtitle">Register a marketplace seller</p>
+            <form th:action="@{/sellers/add}" th:object="${newSeller}" method="post">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="sellerName">Seller / Business Name *</label>
+                        <input type="text" id="sellerName" th:field="*{sellerName}" required placeholder="e.g. Acme Retailers">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" th:field="*{email}" required placeholder="e.g. contact@acme.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="businessType">Business Type *</label>
+                        <select id="businessType" th:field="*{businessType}" required>
+                            <option value="Individual">Individual</option>
+                            <option value="Small business">Small business</option>
+                            <option value="Registered company">Registered company</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City *</label>
+                        <input type="text" id="city" th:field="*{city}" required placeholder="e.g. Toronto">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="rating">Initial Rating (1.0 - 5.0)</label>
+                        <input type="number" step="0.1" min="1.0" max="5.0" id="rating" th:field="*{rating}" value="5.0">
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <button type="submit" class="btn btn-primary">Save Seller &rarr;</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Sellers Table -->
+        <div class="card">
+            <h2>Registered Sellers</h2>
+            <p class="subtitle">Current seller directory</p>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Seller ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Business Type</th>
+                            <th>City</th>
+                            <th>Rating</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="s : ${sellers}">
+                            <td th:text="'#SEL-' + ${s.sellerId}" style="font-weight: 600;"></td>
+                            <td th:text="${s.sellerName}"></td>
+                            <td th:text="${s.email}"></td>
+                            <td th:text="${s.businessType}"></td>
+                            <td th:text="${s.city}"></td>
+                            <td style="color: #facc15; font-weight: 700;" th:text="${s.rating} + ' ★'"></td>
+                            <td>
+                                <a th:href="@{/sellers/delete/{id}(id=${s.sellerId})}" 
+                                   class="btn btn-secondary btn-small btn-danger"
+                                   onclick="return confirm('Are you sure you want to delete this seller?')">Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        COMP303 Assignment 3 &bull; Developed by Ean Bynoe (301390261)
+    </footer>
+</body>
+</html>
